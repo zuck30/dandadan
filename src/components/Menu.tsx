@@ -50,14 +50,16 @@ export default function Menu({ open, onClose, onSelect }: Props) {
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.03 * i }}
-                className="flex items-center gap-3 font-sans text-sm tracking-[0.35em] text-white/70 transition hover:text-white md:text-base"
+                whileHover={{ x: -6, color: "#ffffff" }}
+                whileTap={{ scale: 0.96 }}
+                className="group flex cursor-pointer items-center gap-3 font-sans text-sm tracking-[0.35em] text-white/70 transition-colors hover:text-white md:text-base"
               >
                 <Image
                   src={ITEM_ICONS[item]}
                   alt={item}
                   width={22}
                   height={22}
-                  className="h-[22px] w-[22px] invert opacity-80"
+                  className="h-[22px] w-[22px] invert opacity-80 transition-all duration-200 group-hover:scale-110 group-hover:opacity-100"
                 />
                 {item}
               </motion.button>
