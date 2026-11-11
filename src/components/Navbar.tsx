@@ -14,19 +14,36 @@ export default function Navbar({ onMenuToggle, menuOpen }: Props) {
         <Image
           src="/logo.png"
           alt="Dandadan"
-          width={120}
-          height={48}
+          width={160}
+          height={54}
           priority
-          className="h-10 w-auto md:h-12"
+          className="h-14 w-auto md:h-16"
         />
       </div>
       <button
         type="button"
         onClick={onMenuToggle}
-        className="font-sans text-xs tracking-[0.35em] text-white/80 transition hover:text-white md:text-sm"
+        className="transition hover:opacity-80"
         aria-expanded={menuOpen}
+        aria-label={menuOpen ? "Close menu" : "Open menu"}
       >
-        {menuOpen ? "CLOSE" : "MENU"}
+        {menuOpen ? (
+          <Image
+            src="https://cdn-icons-png.flaticon.com/128/7546/7546863.png"
+            alt="Close"
+            width={28}
+            height={28}
+            className="h-7 w-7 invert"
+          />
+        ) : (
+          <Image
+            src="https://cdn-icons-png.flaticon.com/128/63/63000.png"
+            alt="Menu"
+            width={28}
+            height={28}
+            className="h-7 w-7 invert"
+          />
+        )}
       </button>
     </header>
   );
