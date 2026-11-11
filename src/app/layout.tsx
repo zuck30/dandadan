@@ -18,8 +18,14 @@ export const metadata: Metadata = {
   title: "dandadan",
   description: "A cinematic anime oracle",
   icons: {
-    icon: [{ url: "/logo.png", type: "image/png" }],
-    shortcut: [{ url: "/logo.png", type: "image/png" }],
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-48.png", sizes: "48x48", type: "image/png" },
+      { url: "/logo.png", type: "image/png" },
+    ],
+    shortcut: [{ url: "/favicon.ico" }],
+    apple: [{ url: "/logo.png" }],
   },
 };
 
