@@ -90,4 +90,4 @@ npm run lint
 
 # Credits
 
-- Creator: **Shadrackovsky** — [GitHub](https://zuck30.github.io/zuck30/)
+- Creator: **Shadrackovsky** :[GitHub](https://zuck30.github.io/zuck30/)
