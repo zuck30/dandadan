@@ -14,10 +14,10 @@ export default function Navbar({ onMenuToggle, menuOpen }: Props) {
         <Image
           src="/logo.png"
           alt="Dandadan"
-          width={160}
-          height={54}
+          width={200}
+          height={68}
           priority
-          className="h-14 w-auto md:h-16"
+          className="h-16 w-auto md:h-20"
         />
       </div>
       <button

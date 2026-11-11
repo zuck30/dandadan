@@ -1,16 +1,13 @@
-# dandadan
+# welcome to Dandadan. Dandadan is my personal favorite anime.
 
-A cinematic, single-page anime oracle. Type your vibe, pick a mood, and the oracle recommends an anime — the screen background video shifts to match the mood, a dramatic cinematic line appears in the center, and a blurred poster color-bleeds behind it all.
+<p align="center">
+    <a href="https://github.com/zuck30">
+        <img src="/public/logo.png" alt="header banner" width="800">
+    </a>
+</p>
+This project is a cinematic, single-page anime recommendation engine. Type your vibe, pick a mood, and the oracle recommends an anime.
 
-## The Aesthetic
-
-- Full-screen, looping, muted video background that crossfades between six mood-mapped clips.
-- Grain/noise overlay (`mix-blend-mode: overlay`, ~8% opacity) over a dark `bg-black/60` wash for readability.
-- Centered serif-italic hero text in **Cormorant Garamond**; UI in **Space Grotesk**.
-- No scrolling — the page is a single viewport.
-- Top-left wordmark, top-right `MENU`, right-aligned vertical mood list, bottom-right creator credit.
-
-## Features
+# Features
 
 - **Backend:** Supabase Edge Function (`supabase/functions/recommend/index.ts`) — a Deno function that:
   - Accepts `POST { vibe, mood }` with CORS.
@@ -23,14 +20,14 @@ A cinematic, single-page anime oracle. Type your vibe, pick a mood, and the orac
   - `Navbar` / `Menu` — minimal menu with mood items: `SOULMATE`, `SHIFT`, `MIRROR`, `TEARS`, `HYPE`, `PEACE`.
   - `page.tsx` — hidden vibe input opened with `/` or a click anywhere; triggers the Supabase function and wires the response to the background, text, and poster.
 
-## Tech Stack
+# Tech Stack
 
 - **Next.js 16** (App Router, Turbopack, Tailwind CSS v4)
 - **React 19**, **framer-motion**
 - **Supabase** (client + Edge Functions)
-- **DeepSeek** (chat completions) and **Jikan** (anime metadata)
+- **DeepSeek** (chat completions) and **Jikan** (for anime metadata)
 
-## Getting Started
+# Getting Started
 
 ```bash
 npm install
@@ -41,7 +38,7 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
-### Environment variables
+# Environment variables
 
 | Variable | Required | Where used |
 | --- | --- | --- |
@@ -56,7 +53,7 @@ supabase functions deploy recommend
 supabase secrets set DEEPSEEK_API_KEY=your-key
 ```
 
-## Project Structure
+# Project Structure
 
 ```
 dandadan/
@@ -78,14 +75,13 @@ dandadan/
 └── env.example
 ```
 
-## Build & Lint
+# Build & Lint
 
 ```bash
 npm run build
 npm run lint
 ```
 
-## Credits
+# Credits
 
 - Creator: **Shadrackovsky** — [GitHub](https://zuck30.github.io/zuck30/)
-- Video assets and poster imagery are fetched at runtime (Jikan) and served locally from `public/videos`.
