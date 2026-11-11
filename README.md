@@ -2,7 +2,7 @@
 
 <p align="center">
     <a href="https://github.com/zuck30">
-        <img src="/public/logo.png" alt="header banner" width="800">
+        <img src="/public/logo.png" alt="header banner" width="400">
     </a>
 </p>
 This project is a cinematic, single-page anime recommendation engine. Type your vibe, pick a mood, and the oracle recommends an anime.
