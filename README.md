@@ -82,6 +82,12 @@ npm run build
 npm run lint
 ```
 
+<p align="center">
+    <a href="https://github.com/zuck30">
+        <img src="/public/shot.png" alt="header banner" width="800">
+    </a>
+</p>
+
 # Credits
 
 - Creator: **Shadrackovsky** — [GitHub](https://zuck30.github.io/zuck30/)
