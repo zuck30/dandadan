@@ -118,6 +118,21 @@ export default function Home() {
         </div>
       ) : null}
 
+      <a
+        href="https://zuck30.github.io/zuck30/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-8 right-8 z-20 flex items-center gap-2 font-sans text-[10px] tracking-[0.25em] text-white/50 transition hover:text-white/80 md:bottom-10 md:right-12"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <img
+          src="https://cdn-icons-png.flaticon.com/128/25/25471.png"
+          alt="GitHub"
+          className="h-4 w-4 invert opacity-70"
+        />
+        <span>SHADRACKOVSKY</span>
+      </a>
+
       <form
         onSubmit={handleSubmit}
         className={`fixed bottom-10 left-1/2 z-40 w-[min(90vw,520px)] -translate-x-1/2 transition-all duration-500 ${
