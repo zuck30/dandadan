@@ -1,36 +1,91 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# dandadan
+
+A cinematic, single-page anime oracle. Type your vibe, pick a mood, and the oracle recommends an anime — the screen background video shifts to match the mood, a dramatic cinematic line appears in the center, and a blurred poster color-bleeds behind it all.
+
+## The Aesthetic
+
+- Full-screen, looping, muted video background that crossfades between six mood-mapped clips.
+- Grain/noise overlay (`mix-blend-mode: overlay`, ~8% opacity) over a dark `bg-black/60` wash for readability.
+- Centered serif-italic hero text in **Cormorant Garamond**; UI in **Space Grotesk**.
+- No scrolling — the page is a single viewport.
+- Top-left wordmark, top-right `MENU`, right-aligned vertical mood list, bottom-right creator credit.
+
+## Features
+
+- **Backend:** Supabase Edge Function (`supabase/functions/recommend/index.ts`) — a Deno function that:
+  - Accepts `POST { vibe, mood }` with CORS.
+  - Calls DeepSeek (`deepseek-chat`) with a cinematic-oracle system prompt to get `anime_name`, `cinematic_text`, and `video_mood`.
+  - Looks up the poster via the Jikan API (`api.jikan.moe/v4/anime`).
+  - Returns `{ cinematic_text, anime_name, poster_url, video_mood }`.
+- **Frontend:**
+  - `VideoBackground` — `framer-motion` crossfade between the 6 videos based on `video_mood` (`calm→video-1`, `hype→video-2`, `action→video-3`, `mystery→video-4`, `sad→video-5`, default `video-6`), plus a heavily blurred poster color-bleed layer.
+  - `HeroText` — fade/blur transitions for the cinematic line and loading state.
+  - `Navbar` / `Menu` — minimal menu with mood items: `SOULMATE`, `SHIFT`, `MIRROR`, `TEARS`, `HYPE`, `PEACE`.
+  - `page.tsx` — hidden vibe input opened with `/` or a click anywhere; triggers the Supabase function and wires the response to the background, text, and poster.
+
+## Tech Stack
+
+- **Next.js 16** (App Router, Turbopack, Tailwind CSS v4)
+- **React 19**, **framer-motion**
+- **Supabase** (client + Edge Functions)
+- **DeepSeek** (chat completions) and **Jikan** (anime metadata)
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+npm install
+cp env.example .env.local
+# edit .env.local with your Supabase and DeepSeek keys
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Environment variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Variable | Required | Where used |
+| --- | --- | --- |
+| `NEXT_PUBLIC_SUPABASE_URL` | yes | `src/lib/supabase.ts` |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | yes | `src/lib/supabase.ts` |
+| `DEEPSEEK_API_KEY` | yes | `supabase/functions/recommend/index.ts` (Deno env) |
 
-## Learn More
+Deploy the edge function to Supabase:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+supabase functions deploy recommend
+supabase secrets set DEEPSEEK_API_KEY=your-key
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Project Structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+dandadan/
+├── public/
+│   ├── logo.png            # favicon + wordmark
+│   └── videos/video-1..6.mp4
+├── src/
+│   ├── app/
+│   │   ├── layout.tsx      # fonts, metadata, favicon
+│   │   ├── page.tsx        # state, API wiring, hidden vibe input
+│   │   └── globals.css     # dark base, grain overlay, overflow hidden
+│   ├── components/
+│   │   ├── Navbar.tsx
+│   │   ├── Menu.tsx
+│   │   ├── HeroText.tsx
+│   │   └── VideoBackground.tsx
+│   └── lib/supabase.ts
+├── supabase/functions/recommend/index.ts
+└── env.example
+```
 
-## Deploy on Vercel
+## Build & Lint
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+npm run build
+npm run lint
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Credits
+
+- Creator: **Shadrackovsky** — [GitHub](https://zuck30.github.io/zuck30/)
+- Video assets and poster imagery are fetched at runtime (Jikan) and served locally from `public/videos`.
