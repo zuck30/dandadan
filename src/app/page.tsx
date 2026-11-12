@@ -107,7 +107,7 @@ export default function Home() {
 
   return (
     <main
-      className="relative h-dvh w-full overflow-hidden bg-black text-white"
+      className="relative min-h-dvh w-full bg-black text-white"
       onClick={() => {
         if (!menuOpen) openInput();
       }}

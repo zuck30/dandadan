@@ -26,7 +26,7 @@ export default function VideoBackground({ videoMood, posterUrl }: Props) {
   const src = getVideoForMood(videoMood);
 
   return (
-    <div className="absolute inset-0 overflow-hidden bg-black">
+    <div className="fixed inset-0 z-0 overflow-hidden bg-black">
       {posterUrl ? (
         <div
           className="absolute inset-0 scale-110 bg-center bg-cover"

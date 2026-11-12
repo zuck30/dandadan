@@ -9,7 +9,7 @@ type Props = {
 
 export default function Navbar({ onMenuToggle, menuOpen }: Props) {
   return (
-    <header className="fixed left-0 right-0 top-0 z-40 flex items-start justify-between px-8 py-6 text-white md:px-12 md:py-8">
+    <header className="fixed left-0 right-0 top-0 z-40 flex items-start justify-between bg-gradient-to-b from-black/70 via-black/30 to-transparent px-8 py-6 text-white md:px-12 md:py-8">
       <div className="select-none">
         <Image
           src="/logo.png"

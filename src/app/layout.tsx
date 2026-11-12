@@ -37,9 +37,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${cormorant.variable} ${spaceGrotesk.variable} h-full`}
+      className={`${cormorant.variable} ${spaceGrotesk.variable}`}
     >
-      <body className="h-full antialiased overflow-hidden bg-black">
+      <body className="min-h-dvh antialiased bg-black">
         {children}
       </body>
     </html>
