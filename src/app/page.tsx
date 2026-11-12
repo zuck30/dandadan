@@ -5,7 +5,7 @@ import HeroText from "@/components/HeroText";
 import Menu from "@/components/Menu";
 import Navbar from "@/components/Navbar";
 import VideoBackground from "@/components/VideoBackground";
-import { supabase } from "@/lib/supabase";
+import { isSupabaseConfigured, supabase } from "@/lib/supabase";
 
 type RecommendResult = {
   cinematic_text: string;
@@ -30,6 +30,16 @@ export default function Home() {
     async (nextVibe: string, nextMood: string) => {
       if (isLoading) return;
       if (!nextVibe.trim() && !nextMood) return;
+      if (!isSupabaseConfigured) {
+        setResult({
+          cinematic_text:
+            "The oracle is not connected yet. Add the Supabase environment variables in Vercel and redeploy.",
+          anime_name: "",
+          poster_url: "",
+          video_mood: "mystery",
+        });
+        return;
+      }
       setIsLoading(true);
       try {
         const { data, error } = await supabase.functions.invoke("recommend", {

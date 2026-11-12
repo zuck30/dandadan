@@ -1,0 +1,12 @@
+# Only Next.js app files are needed by Vercel.
+.next
+node_modules
+.DS_Store
+
+# Never upload local secrets.
+.env
+.env.*
+!.env.example
+
+# Supabase Edge Functions are deployed separately with the Supabase CLI.
+supabase

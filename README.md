@@ -29,7 +29,7 @@ this project is a cinematic, single-page anime recommendation engine. type your 
 
 ```bash
 npm install
-cp env.example .env.local
+cp .env.example .env.local
 # edit .env.local with your supabase and deepseek keys
 npm run dev
 ```
@@ -47,9 +47,47 @@ open [http://localhost:3000](http://localhost:3000).
 deploy the edge function to supabase:
 
 ```bash
+supabase login
+supabase link --project-ref <your-project-ref>
 supabase functions deploy recommend
 supabase secrets set DEEPSEEK_API_KEY=your-key
 ```
+
+# deploy to vercel
+
+the repo is ready for Vercel: `vercel.json` pins the Next.js preset, `.nvmrc` pins Node 22, and `.vercelignore` keeps local secrets and the Supabase function out of the upload.
+
+1. **Set the environment variables** in Vercel → Project → Settings → Environment Variables (for Production, Preview and Development):
+
+   | name | value |
+   | --- | --- |
+   | `NEXT_PUBLIC_SUPABASE_URL` | `https://<project-ref>.supabase.co` |
+   | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | your Supabase anon/publishable key |
+
+   `DEEPSEEK_API_KEY` belongs to the Supabase Edge Function, not Vercel.
+
+2. **Deploy** one of these ways:
+
+   ```bash
+   # with the Vercel CLI
+   npx vercel login
+   npx vercel link          # link this folder to the project
+   npx vercel --prod        # create a Production deployment
+   ```
+
+   or push to `main` if the project is connected to GitHub under Settings → Git.
+
+3. **Confirm the domain** under Project → Settings → Domains. The production domain only serves traffic after a successful Production deployment.
+
+### troubleshooting "No Production Deployment / Your Production Domain is not serving traffic"
+
+- Check `https://<your-domain>` headers. `x-vercel-error: DEPLOYMENT_DISABLED` with HTTP `402 Payment required` means Vercel has disabled deployments for the account/project for billing reasons — fix the payment method, spend limit or account status in the Vercel dashboard first. No code change can bypass this.
+- If there is no deployment at all, the repository is probably not connected under Settings → Git (or you have only ever made preview/CLI deploys). Run `npx vercel --prod`, or connect the repo and push to `main`.
+- Re-run locally to confirm the code itself is healthy:
+
+  ```bash
+  npm ci && npm run build
+  ```
 
 # project structure
 
@@ -70,7 +108,9 @@ dandadan/
 │   │   └── VideoBackground.tsx
 │   └── lib/supabase.ts
 ├── supabase/functions/recommend/index.ts
-└── env.example
+├── .env.example
+├── vercel.json
+└── .nvmrc
 ```
 
 # build & lint

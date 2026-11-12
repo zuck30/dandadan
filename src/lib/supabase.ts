@@ -1,12 +1,19 @@
 import { createClient } from "@supabase/supabase-js";
 
-const supabaseUrl =
-  process.env.NEXT_PUBLIC_SUPABASE_URL || "https://placeholder.supabase.co";
-const supabaseAnonKey =
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "placeholder-anon-key";
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+export const isSupabaseConfigured = Boolean(
+  supabaseUrl && supabaseAnonKey,
+);
 
-export const isSupabaseConfigured =
-  Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL) &&
-  Boolean(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
+if (!isSupabaseConfigured && typeof window !== "undefined") {
+  console.warn(
+    "[dandadan] Supabase is not configured. Set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in your environment (and in Vercel) then redeploy.",
+  );
+}
+
+export const supabase = createClient(
+  supabaseUrl || "https://placeholder.supabase.co",
+  supabaseAnonKey || "placeholder-anon-key",
+);

@@ -47,6 +47,7 @@ Deno.serve(async (req: Request) => {
         Authorization: `Bearer ${apiKey}`,
         "Content-Type": "application/json",
       },
+      signal: AbortSignal.timeout(30_000),
       body: JSON.stringify({
         model: "deepseek-chat",
         messages: [
@@ -102,6 +103,7 @@ Deno.serve(async (req: Request) => {
     try {
       const jikanRes = await fetch(
         `https://api.jikan.moe/v4/anime?q=${encodeURIComponent(animeName)}&limit=1`,
+        { signal: AbortSignal.timeout(6_000) },
       );
       if (jikanRes.ok) {
         const jikanData = await jikanRes.json();
