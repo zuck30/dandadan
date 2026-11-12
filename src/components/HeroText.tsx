@@ -17,7 +17,7 @@ export default function HeroText({ text, isLoading }: Props) {
           animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           exit={{ opacity: 0, y: -12, filter: "blur(6px)" }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="max-w-4xl text-center font-serif italic text-4xl leading-tight text-white/90 drop-shadow-2xl md:text-5xl lg:text-6xl"
+          className="max-w-4xl text-center font-serif text-4xl leading-tight text-white/90 drop-shadow-2xl md:text-5xl lg:text-6xl"
         >
           {isLoading ? "Listening to your soul..." : text}
         </motion.p>
