@@ -1,59 +1,57 @@
-# welcome to Dandadan. Dandadan is my personal favorite anime.
-
 <p align="center">
     <a href="https://github.com/zuck30">
         <img src="/public/logo.png" alt="header banner" width="400">
     </a>
 </p>
-This project is a cinematic, single-page anime recommendation engine. Type your vibe, pick a mood, and the oracle recommends an anime.
+this project is a cinematic, single-page anime recommendation engine. type your vibe, pick a mood, and the engine recommends an anime.
 
-# Features
+# features
 
-- **Backend:** Supabase Edge Function (`supabase/functions/recommend/index.ts`) — a Deno function that:
-  - Accepts `POST { vibe, mood }` with CORS.
-  - Calls DeepSeek (`deepseek-chat`) with a cinematic-oracle system prompt to get `anime_name`, `cinematic_text`, and `video_mood`.
-  - Looks up the poster via the Jikan API (`api.jikan.moe/v4/anime`).
-  - Returns `{ cinematic_text, anime_name, poster_url, video_mood }`.
-- **Frontend:**
+- **backend:** supabase edge function (`supabase/functions/recommend/index.ts`) — a deno function that:
+  - accepts `POST { vibe, mood }` with CORS.
+  - calls deepseek (`deepseek-chat`) with a cinematic-oracle system prompt to get `anime_name`, `cinematic_text`, and `video_mood`.
+  - looks up the poster via the jikan api (`api.jikan.moe/v4/anime`).
+  - returns `{ cinematic_text, anime_name, poster_url, video_mood }`.
+- **frontend:**
   - `VideoBackground` — `framer-motion` crossfade between the 6 videos based on `video_mood` (`calm→video-1`, `hype→video-2`, `action→video-3`, `mystery→video-4`, `sad→video-5`, default `video-6`), plus a heavily blurred poster color-bleed layer.
   - `HeroText` — fade/blur transitions for the cinematic line and loading state.
   - `Navbar` / `Menu` — minimal menu with mood items: `SOULMATE`, `SHIFT`, `MIRROR`, `TEARS`, `HYPE`, `PEACE`.
-  - `page.tsx` — hidden vibe input opened with `/` or a click anywhere; triggers the Supabase function and wires the response to the background, text, and poster.
+  - `page.tsx` — hidden vibe input opened with `/` or a click anywhere; triggers the supabase function and wires the response to the background, text, and poster.
 
-# Tech Stack
+# tech stack
 
-- **Next.js 16** (App Router, Turbopack, Tailwind CSS v4)
-- **React 19**, **framer-motion**
-- **Supabase** (client + Edge Functions)
-- **DeepSeek** (chat completions) and **Jikan** (for anime metadata)
+- **next.js 16** (app router, turbopack, tailwind css v4)
+- **react 19**, **framer-motion**
+- **supabase** (client + edge functions)
+- **deepseek** (chat completions) and **jikan** (for anime metadata)
 
-# Getting Started
+# getting started
 
 ```bash
 npm install
 cp env.example .env.local
-# edit .env.local with your Supabase and DeepSeek keys
+# edit .env.local with your supabase and deepseek keys
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+open [http://localhost:3000](http://localhost:3000).
 
-# Environment variables
+# environment variables
 
-| Variable | Required | Where used |
+| variable | required | where used |
 | --- | --- | --- |
 | `NEXT_PUBLIC_SUPABASE_URL` | yes | `src/lib/supabase.ts` |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | yes | `src/lib/supabase.ts` |
-| `DEEPSEEK_API_KEY` | yes | `supabase/functions/recommend/index.ts` (Deno env) |
+| `DEEPSEEK_API_KEY` | yes | `supabase/functions/recommend/index.ts` (deno env) |
 
-Deploy the edge function to Supabase:
+deploy the edge function to supabase:
 
 ```bash
 supabase functions deploy recommend
 supabase secrets set DEEPSEEK_API_KEY=your-key
 ```
 
-# Project Structure
+# project structure
 
 ```
 dandadan/
@@ -63,7 +61,7 @@ dandadan/
 ├── src/
 │   ├── app/
 │   │   ├── layout.tsx      # fonts, metadata, favicon
-│   │   ├── page.tsx        # state, API wiring, hidden vibe input
+│   │   ├── page.tsx        # state, api wiring, hidden vibe input
 │   │   └── globals.css     # dark base, grain overlay, overflow hidden
 │   ├── components/
 │   │   ├── Navbar.tsx
@@ -75,7 +73,7 @@ dandadan/
 └── env.example
 ```
 
-# Build & Lint
+# build & lint
 
 ```bash
 npm run build
@@ -88,6 +86,6 @@ npm run lint
     </a>
 </p>
 
-# Credits
+# credits
 
-- Creator: **Shadrackovsky** :[GitHub](https://zuck30.github.io/zuck30/)
+- creator: **shadrackovsky** :[github](https://zuck30.github.io/zuck30/)
