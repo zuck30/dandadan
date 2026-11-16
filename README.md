@@ -17,7 +17,7 @@
     <a href="https://tailwindcss.com"><img src="https://img.shields.io/badge/tailwind%20css-4-06b6d4?style=flat-square&logo=tailwindcss&logoColor=white" alt="tailwind css 4"></a>
     <a href="https://supabase.com"><img src="https://img.shields.io/badge/supabase-edge%20functions-3ecf8e?style=flat-square&logo=supabase&logoColor=white" alt="supabase edge functions"></a>
     <a href="https://www.framer.com/motion"><img src="https://img.shields.io/badge/framer%20motion-14-0055ff?style=flat-square&logo=framer&logoColor=white" alt="framer motion 14"></a>
-    <a href="/LICENSE"><img src="https://img.shields.io/badge/license-mit-3da639?style=flat-square&logo=opensourceinitiative&logoColor=white" alt="license mit"></a>
+    <a href="/LICENSE"><img src="https://img.shields.io/github/license/zuck30/dandadan?style=flat-square&color=3da639&logo=opensourceinitiative&logoColor=white" alt="license mit"></a>
 </p>
 
 <p align="center">
