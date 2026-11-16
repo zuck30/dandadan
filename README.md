@@ -1,36 +1,73 @@
 <p align="center">
     <a href="https://github.com/zuck30">
-        <img src="/public/logo.png" alt="header banner" width="400">
+        <img src="/public/logo.png" alt="dandadan logo" width="360">
     </a>
 </p>
-this project is a cinematic, single-page anime recommendation engine. type your vibe, pick a mood, and the engine recommends an anime.
+
+<h3 align="center">type your vibe. pick a mood. the oracle picks the anime.</h3>
+
+<p align="center">
+    a cinematic, single-page anime recommendation engine powered by deepseek, supabase edge functions, and the jikan api.
+</p>
+
+<p align="center">
+    <a href="https://nextjs.org"><img src="https://img.shields.io/badge/next.js-16-000000?style=flat-square&logo=nextdotjs&logoColor=white" alt="next.js 16"></a>
+    <a href="https://react.dev"><img src="https://img.shields.io/badge/react-19-20232a?style=flat-square&logo=react&logoColor=61dafb" alt="react 19"></a>
+    <a href="https://www.typescriptlang.org"><img src="https://img.shields.io/badge/typescript-5-3178c6?style=flat-square&logo=typescript&logoColor=white" alt="typescript 5"></a>
+    <a href="https://tailwindcss.com"><img src="https://img.shields.io/badge/tailwind%20css-4-06b6d4?style=flat-square&logo=tailwindcss&logoColor=white" alt="tailwind css 4"></a>
+    <a href="https://supabase.com"><img src="https://img.shields.io/badge/supabase-edge%20functions-3ecf8e?style=flat-square&logo=supabase&logoColor=white" alt="supabase edge functions"></a>
+    <a href="https://www.framer.com/motion"><img src="https://img.shields.io/badge/framer%20motion-14-0055ff?style=flat-square&logo=framer&logoColor=white" alt="framer motion 14"></a>
+</p>
+
+<p align="center">
+    <a href="/public/shot.png"><img src="/public/shot.png" alt="dandadan screenshot" width="820"></a>
+</p>
 
 # features
 
-- **backend:** supabase edge function (`supabase/functions/recommend/index.ts`) — a deno function that:
-  - accepts `POST { vibe, mood }` with CORS.
-  - calls deepseek (`deepseek-chat`) with a cinematic-oracle system prompt to get `anime_name`, `cinematic_text`, and `video_mood`.
-  - looks up the poster via the jikan api (`api.jikan.moe/v4/anime`).
-  - returns `{ cinematic_text, anime_name, poster_url, video_mood }`.
-- **frontend:**
-  - `VideoBackground` — `framer-motion` crossfade between the 6 videos based on `video_mood` (`calm→video-1`, `hype→video-2`, `action→video-3`, `mystery→video-4`, `sad→video-5`, default `video-6`), plus a heavily blurred poster color-bleed layer.
-  - `HeroText` — fade/blur transitions for the cinematic line and loading state.
-  - `Navbar` / `Menu` — minimal menu with mood items: `SOULMATE`, `SHIFT`, `MIRROR`, `TEARS`, `HYPE`, `PEACE`.
-  - `page.tsx` — hidden vibe input opened with `/` or a click anywhere; triggers the supabase function and wires the response to the background, text, and poster.
+- **cinematic background** — six looping videos crossfade with `framer-motion` based on the mood of the returned recommendation, layered with a heavily blurred color-bleed taken from the anime poster.
+- **one-input interaction** — press `/` or click anywhere to open the hidden vibe prompt. hit `Escape` to dismiss.
+- **mood menu** — pick a preset mood instead of typing: `SOULMATE`, `SHIFT`, `MIRROR`, `TEARS`, `HYPE`, `PEACE`.
+- **deepseek oracle** — the edge function prompts `deepseek-chat` for a single anime plus a 2–3 sentence cinematic justification, returned as structured json.
+- **poster lookup** — the returned title is resolved against the jikan api so the ui can display real cover art.
+- **graceful degradation** — if supabase or the oracle is unavailable, the app still renders and shows a themed fallback message instead of crashing.
+
+# how it works
+
+1. you submit a vibe, a mood, or both.
+2. the client calls the `recommend` supabase edge function.
+3. the function asks deepseek for `anime_name`, `cinematic_text`, and `video_mood`.
+4. the title is looked up on jikan for a poster url.
+5. the response drives the hero text, the background video, and the poster layer.
 
 # tech stack
 
-- **next.js 16** (app router, turbopack, tailwind css v4)
-- **react 19**, **framer-motion**
-- **supabase** (client + edge functions)
-- **deepseek** (chat completions) and **jikan** (for anime metadata)
+| layer | choice |
+| --- | --- |
+| framework | next.js 16 (app router, turbopack) |
+| language | typescript 5 |
+| styling | tailwind css v4 |
+| animation | framer-motion |
+| backend | supabase edge functions (deno) |
+| inference | deepseek chat completions |
+| metadata | jikan api |
 
-# getting started
+# quick start
+
+### prerequisites
+
+- node `>= 20.9.0` (the repo pins `22` via `.nvmrc`)
+- a supabase project with the `recommend` function deployed
+- a deepseek api key
+
+### install and run
 
 ```bash
+git clone https://github.com/zuck30/dandadan.git
+cd dandadan
 npm install
 cp .env.example .env.local
-# edit .env.local with your supabase and deepseek keys
+# fill in .env.local with your supabase keys
 npm run dev
 ```
 
@@ -38,94 +75,119 @@ open [http://localhost:3000](http://localhost:3000).
 
 # environment variables
 
-| variable | required | where used |
+| variable | required | used by |
 | --- | --- | --- |
 | `NEXT_PUBLIC_SUPABASE_URL` | yes | `src/lib/supabase.ts` |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | yes | `src/lib/supabase.ts` |
-| `DEEPSEEK_API_KEY` | yes | `supabase/functions/recommend/index.ts` (deno env) |
+| `DEEPSEEK_API_KEY` | yes | `supabase/functions/recommend/index.ts` |
 
-deploy the edge function to supabase:
+`DEEPSEEK_API_KEY` is consumed by the edge function at runtime, not by the browser. keep it in supabase secrets for deployed environments.
+
+# supabase edge function
+
+the function lives at `supabase/functions/recommend/index.ts` and exposes a single `POST` endpoint with cors enabled.
+
+**request**
+
+```json
+{ "vibe": "rainy tokyo rooftop", "mood": "MIRROR" }
+```
+
+**response**
+
+```json
+{
+  "anime_name": "Serial Experiments Lain",
+  "cinematic_text": "...",
+  "poster_url": "https://cdn.myanimelist.net/images/anime/...",
+  "video_mood": "mystery"
+}
+```
+
+`video_mood` is constrained to `action`, `sad`, `calm`, `mystery`, or `hype`, which map to `video-3`, `video-5`, `video-1`, `video-4`, and `video-2` respectively, with `video-6` as the default.
+
+deploy it with the supabase cli:
 
 ```bash
 supabase login
 supabase link --project-ref <your-project-ref>
-supabase functions deploy recommend
 supabase secrets set DEEPSEEK_API_KEY=your-key
+supabase functions deploy recommend
 ```
 
-# deploy to vercel
+# scripts
 
-the repo is ready for Vercel: `vercel.json` pins the Next.js preset, `.nvmrc` pins Node 22, and `.vercelignore` keeps local secrets and the Supabase function out of the upload.
-
-1. **Set the environment variables** in Vercel → Project → Settings → Environment Variables (for Production, Preview and Development):
-
-   | name | value |
-   | --- | --- |
-   | `NEXT_PUBLIC_SUPABASE_URL` | `https://<project-ref>.supabase.co` |
-   | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | your Supabase anon/publishable key |
-
-   `DEEPSEEK_API_KEY` belongs to the Supabase Edge Function, not Vercel.
-
-2. **Deploy** one of these ways:
-
-   ```bash
-   # with the Vercel CLI
-   npx vercel login
-   npx vercel link          # link this folder to the project
-   npx vercel --prod        # create a Production deployment
-   ```
-
-   or push to `main` if the project is connected to GitHub under Settings → Git.
-
-3. **Confirm the domain** under Project → Settings → Domains. The production domain only serves traffic after a successful Production deployment.
-
-### troubleshooting "No Production Deployment / Your Production Domain is not serving traffic"
-
-- Check `https://<your-domain>` headers. `x-vercel-error: DEPLOYMENT_DISABLED` with HTTP `402 Payment required` means Vercel has disabled deployments for the account/project for billing reasons — fix the payment method, spend limit or account status in the Vercel dashboard first. No code change can bypass this.
-- If there is no deployment at all, the repository is probably not connected under Settings → Git (or you have only ever made preview/CLI deploys). Run `npx vercel --prod`, or connect the repo and push to `main`.
-- Re-run locally to confirm the code itself is healthy:
-
-  ```bash
-  npm ci && npm run build
-  ```
+| command | description |
+| --- | --- |
+| `npm run dev` | start the dev server with turbopack |
+| `npm run build` | create a production build |
+| `npm run start` | serve the production build |
+| `npm run lint` | run eslint |
 
 # project structure
 
 ```
 dandadan/
 ├── public/
-│   ├── logo.png            # favicon + wordmark
-│   └── videos/video-1..6.mp4
+│   ├── logo.png                # wordmark
+│   ├── shot.png                # readme screenshot
+│   ├── favicon-*.png
+│   └── videos/video-1..6.mp4   # mood backgrounds
 ├── src/
 │   ├── app/
-│   │   ├── layout.tsx      # fonts, metadata, favicon
-│   │   ├── page.tsx        # state, api wiring, hidden vibe input
-│   │   └── globals.css     # dark base, grain overlay, overflow hidden
+│   │   ├── layout.tsx          # fonts, metadata, favicon
+│   │   ├── page.tsx            # state, edge function wiring, hidden input
+│   │   └── globals.css         # dark base, grain overlay
 │   ├── components/
 │   │   ├── Navbar.tsx
-│   │   ├── Menu.tsx
-│   │   ├── HeroText.tsx
-│   │   └── VideoBackground.tsx
+│   │   ├── Menu.tsx            # mood presets
+│   │   ├── HeroText.tsx        # cinematic line + loading state
+│   │   └── VideoBackground.tsx # crossfade + poster color bleed
 │   └── lib/supabase.ts
 ├── supabase/functions/recommend/index.ts
 ├── .env.example
-├── vercel.json
-└── .nvmrc
+├── .nvmrc
+└── vercel.json
 ```
 
-# build & lint
+# deploy to vercel
 
-```bash
-npm run build
-npm run lint
-```
+the repo ships deploy-ready: `vercel.json` pins the next.js preset and uses `npm ci`, `.nvmrc` pins node 22, and `.vercelignore` keeps local secrets and the supabase function out of the upload.
 
-<p align="center">
-    <a href="https://github.com/zuck30">
-        <img src="/public/shot.png" alt="header banner" width="800">
-    </a>
-</p>
+1. **set the environment variables** in vercel → project → settings → environment variables (production, preview and development):
+
+   | name | value |
+   | --- | --- |
+   | `NEXT_PUBLIC_SUPABASE_URL` | `https://<project-ref>.supabase.co` |
+   | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | your supabase anon/publishable key |
+
+   `DEEPSEEK_API_KEY` belongs to the supabase edge function, not vercel.
+
+2. **deploy** one of these ways:
+
+   ```bash
+   # with the vercel cli
+   npx vercel login
+   npx vercel link          # link this folder to the project
+   npx vercel --prod        # create a production deployment
+   ```
+
+   or push to `main` if the project is connected to github under settings → git.
+
+3. **confirm the domain** under project → settings → domains. the production domain only serves traffic after a successful production deployment.
+
+### troubleshooting
+
+- **no production deployment / domain not serving traffic** — check the response headers on `https://<your-domain>`. an `x-vercel-error: DEPLOYMENT_DISABLED` header with http `402 Payment required` means vercel has disabled deployments for the account or project for billing reasons. fix the payment method, spend limit, or account status in the vercel dashboard; no code change can bypass this.
+- **no deployment exists at all** — the repository is probably not connected under settings → git, or only preview/cli deploys have been made. run `npx vercel --prod`, or connect the repo and push to `main`.
+- **verify the build locally** to rule out the code:
+
+  ```bash
+  npm ci && npm run build
+  ```
 
 # credits
 
-- creator: **shadrackovsky** :[github](https://zuck30.github.io/zuck30/)
+built by **shadrackovsky** — [zuck30.github.io](https://zuck30.github.io/zuck30/)
+
+criteria for a recommendation, poster data, and anime metadata are provided by the [jikan api](https://jikan.moe). reasoning is generated by [deepseek](https://deepseek.com).
