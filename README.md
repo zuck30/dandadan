@@ -24,19 +24,6 @@
     <a href="/public/shot.png"><img src="/public/shot.png" alt="dandadan screenshot" width="820"></a>
 </p>
 
-# scripts
-
-<div align="center">
-
-| command | description |
-| --- | --- |
-| `npm run dev` | start the dev server with turbopack |
-| `npm run build` | create a production build |
-| `npm run start` | serve the production build |
-| `npm run lint` | run eslint |
-
-</div>
-
 # credits
 
 built by **shadrackovsky** ([zuck30.github.io](https://zuck30.github.io/zuck30/)).
