@@ -11,6 +11,10 @@
 </p>
 
 <p align="center">
+    <a href="https://animedandadan.vercel.app"><img src="https://img.shields.io/badge/live%20demo-animedandadan.vercel.app-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="live demo"></a>
+</p>
+
+<p align="center">
     <a href="https://nextjs.org"><img src="https://img.shields.io/badge/next.js-16-000000?style=flat-square&logo=nextdotjs&logoColor=white" alt="next.js 16"></a>
     <a href="https://react.dev"><img src="https://img.shields.io/badge/react-19-20232a?style=flat-square&logo=react&logoColor=61dafb" alt="react 19"></a>
     <a href="https://www.typescriptlang.org"><img src="https://img.shields.io/badge/typescript-5-3178c6?style=flat-square&logo=typescript&logoColor=white" alt="typescript 5"></a>
