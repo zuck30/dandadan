@@ -33,22 +33,6 @@
 - **poster lookup:** the title is resolved against the jikan api for real cover art.
 - **graceful degradation:** themed fallback message if supabase or the oracle is unavailable.
 
-# tech stack
-
-<div align="center">
-
-| layer | choice |
-| --- | --- |
-| framework | next.js 16 (app router, turbopack) |
-| language | typescript 5 |
-| styling | tailwind css v4 |
-| animation | framer-motion |
-| backend | supabase edge functions (deno) |
-| inference | deepseek chat completions |
-| metadata | jikan api |
-
-</div>
-
 # quick start
 
 ```bash
