@@ -4,7 +4,7 @@
     </a>
 </p>
 
-<h3 align="center">type your vibe. pick a mood. the oracle picks the anime.</h3>
+<h3 align="center">pick a mood. get an anime that fits.</h3>
 
 <p align="center">
     a cinematic, single-page anime recommendation engine powered by deepseek, supabase edge functions, and the jikan api.
