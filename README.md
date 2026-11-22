@@ -24,19 +24,6 @@
     <a href="/public/shot.png"><img src="/public/shot.png" alt="dandadan screenshot" width="820"></a>
 </p>
 
-# quick start
-
-```bash
-git clone https://github.com/zuck30/dandadan.git
-cd dandadan
-npm install
-cp .env.example .env.local
-# fill in .env.local with your supabase keys
-npm run dev
-```
-
-set `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, and `DEEPSEEK_API_KEY` (supabase secret) before running.
-
 # scripts
 
 <div align="center">
