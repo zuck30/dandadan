@@ -24,15 +24,6 @@
     <a href="/public/shot.png"><img src="/public/shot.png" alt="dandadan screenshot" width="820"></a>
 </p>
 
-# features
-
-- **cinematic background:** six looping videos crossfade with `framer-motion` based on the mood of the recommendation, with a blurred color bleed from the poster.
-- **one-input interaction:** press `/` or click to open the vibe prompt, `escape` to dismiss.
-- **mood menu:** pick a preset: `SOULMATE`, `SHIFT`, `MIRROR`, `TEARS`, `HYPE`, `PEACE`.
-- **deepseek oracle:** returns one anime plus a short cinematic justification as json.
-- **poster lookup:** the title is resolved against the jikan api for real cover art.
-- **graceful degradation:** themed fallback message if supabase or the oracle is unavailable.
-
 # quick start
 
 ```bash
